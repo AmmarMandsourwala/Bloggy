@@ -1,7 +1,7 @@
 
-# FlaskBlog
+# Bloggy
 
-A full-fledged blog application built using Flask. FlaskBlog is a comprehensive blog app developed using Flask, a micro web framework in Python. This README provides a step-by-step guide to setting up, configuring, and using FlaskBlog.
+A full-fledged blog application built using Flask. Bloggy is a comprehensive blog app developed using Flask, a micro web framework in Python. This README provides a step-by-step guide to setting up, configuring, and using flaskblog.
 
 ---
 
@@ -29,7 +29,7 @@ A full-fledged blog application built using Flask. FlaskBlog is a comprehensive 
 
 1. Navigate to the FlaskBlog directory:
    ```bash
-   $ cd FlaskBlog
+   $ cd flaskblog
    ```
 
 2. Launch the Python interactive shell:
@@ -39,8 +39,8 @@ A full-fledged blog application built using Flask. FlaskBlog is a comprehensive 
 
 3. Initialize the database and create tables:
    ```python
-   >>> from FlaskBlog import db, app
-   >>> from FlaskBlog.models import User, Post
+   >>> from flaskblog import db, app
+   >>> from flaskblog.models import User, Post
    >>> with app.app_context():
    ...     db.create_all()
    ```
