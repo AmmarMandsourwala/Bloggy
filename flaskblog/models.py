@@ -1,7 +1,7 @@
-from itsdangerous.jws import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
 from typing import Optional
-from FlaskBlog import db, login_manager, app
+from flaskblog import db, login_manager, app
 from datetime import datetime, timezone
 from flask_login import UserMixin
 
