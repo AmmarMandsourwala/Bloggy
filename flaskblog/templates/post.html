@@ -1,0 +1,97 @@
+
+{% extends "layout.html" %} {% block content %}
+<article class="media content-section rounded-3" style="margin-left: 7rem">
+  <div class="media-body">
+    <div class="article-metadata">
+      <div class="article-metadata d-flex justify-content-between">
+        <div class="d-flex justify-content-start">
+          <img
+            class="rounded-circle article-img mb-1"
+            src="{{url_for('static', filename='Public/Images/' + post.author.image_file)}}"
+            alt="author profile image"
+            style="width: 30px; height: 30px"
+          />
+          <a
+            class="mr-2 text-decoration-none"
+            href="{{ url_for('user_posts', username=post.author.username) }}"
+            ><em>{{ post.author.username }}</em></a
+          >
+        </div>
+        <small class="text-muted"
+          >{{ post.date_posted.strftime('%B %d, %Y') }}</small
+        >
+      </div>
+      <h2 class="article-title">{{ post.title }}</h2>
+      <p class="article-content">{{ post.content }}</p>
+    </div>
+
+    {% if post.author == current_user %}
+    <div class="d-flex justify-content-end">
+      <a
+        class="btn btn-success btn-sm mt-1 mb-1"
+        href="{{ url_for('update_post', post_id=post.id) }}"
+        >Update</a
+      >
+      <button
+        type="button"
+        class="btn btn-danger btn-sm m-1"
+        data-bs-toggle="modal"
+        data-bs-target="#deleteModal"
+      >
+        Delete
+      </button>
+    </div>
+    {% else %}
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-outline-danger btn-sm m-1">
+        <i class="bi bi-heart-fill"></i> Like
+      </button>
+    </div>
+    {% endif %}
+  </div>
+</article>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">
+          Are you sure you want to delete this post?
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm m-1"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <form
+          action="{{ url_for('delete_post', post_id=post.id) }}"
+          method="POST"
+        >
+          <input
+            class="btn btn-danger btn-sm m-1"
+            type="submit"
+            value="Confirm Delete"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
