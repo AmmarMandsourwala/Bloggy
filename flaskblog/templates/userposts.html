@@ -1,0 +1,77 @@
+{% extends "layout.html" %} {% block content %}
+<div class="d-flex justify-content-between">
+  <h3 class="mb-3" style="margin-left: 7rem">
+    Posts By: <em>{{ user.username }}</em>
+  </h3>
+  <h3>[ {{ posts.total }} ]</h3>
+</div>
+{% for post in posts.items %}
+<article class="media content-section rounded-3" style="margin-left: 7rem">
+  <div class="media-body">
+    <div class="article-metadata d-flex justify-content-between">
+      <div class="d-flex justify-content-start">
+        <img
+          class="rounded-circle article-img mb-1"
+          src="{{url_for('static', filename='Public/Images/' + post.author.image_file)}}"
+          alt="author profile image"
+          style="width: 30px; height: 30px"
+        />
+        <a
+          class="mr-2 text-decoration-none fst-italic"
+          href="{{ url_for('user_posts', username=post.author.username) }}"
+          >{{ post.author.username }}</a
+        >
+      </div>
+      <small class="text-muted fst-italic"
+        >{{ post.date_posted.strftime('%B %d, %Y') }}</small
+      >
+    </div>
+
+    <h2 class="fs-3">
+      <div class="d-flex justify-content-between">
+        <a
+          class="article-title text-decoration-none"
+          href="{{url_for('post', post_id=post.id)}}"
+          >{{ post.title }}</a
+        >
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-outline-warning btn-sm m-1">
+            <i class="bi bi-bookmark-plus"></i>
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-sm m-1">
+            <i class="bi bi-heart-fill"></i>
+          </button>
+        </div>
+      </div>
+    </h2>
+    {% set words = post.content.split() %} {% if words|length > 25 %}
+    <p class="article-content">{{ ' '.join(words[:25]) }}...</p>
+    {% else %}
+    <p class="article-content">{{ post.content }}</p>
+    {% endif %}
+  </div>
+</article>
+{% endfor %}
+
+<div class="d-flex justify-content-center mt-5" style="margin-left: 7rem">
+  {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1,
+  right_current=1) %} {% if page_num %} {% if posts.page == page_num %}
+  <a
+    class="btn btn-secondary me-1 ms-1"
+    href="{{ url_for('user_posts', username=user.username, page=page_num) }}"
+  >
+    {{ page_num }}
+  </a>
+
+  {% else %}
+  <a
+    class="btn btn-outline-secondary me-1 ms-1"
+    href="{{ url_for('user_posts', username=user.username, page=page_num) }}"
+  >
+    {{ page_num }}
+  </a>
+  {% endif %} {% else %}
+  <i class="bi bi-three-dots mt-1"></i>
+  {% endif %} {%endfor %}
+</div>
+{% endblock content %}
